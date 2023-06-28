@@ -1,0 +1,303 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Catalog\Block\Product\View */
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');//get current product
+    $productId = $product->getId(); // $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+  $productStockObj = $objectManager->get('Magento\CatalogInventory\Api\StockRegistryInterface')->getStockItem($productId);
+  $min_qty = $productStockObj->getMinSaleQty();
+  $qty_increments = $productStockObj->getQtyIncrements();
+
+$customerSession = $objectManager->create('Magento\Customer\Model\Session');
+$mod_enable = $this->helper('Rvs\DisableAddToCart\Helper\Data')->getGeneralConfig('enable');
+$disabled_text = $this->helper('Rvs\DisableAddToCart\Helper\Data')->getGeneralConfig('disabled_text');
+$disabled_from = $this->helper('Rvs\DisableAddToCart\Helper\Data')->getGeneralConfig('disabled_from');
+$disabled_to = $this->helper('Rvs\DisableAddToCart\Helper\Data')->getGeneralConfig('disabled_to');
+$storecountry = $this->helper('Rvs\DisableAddToCart\Helper\Data')->getGeneralConfig('storecountry');
+$getMainGeneralConfig = $this->helper('Rvs\DisableAddToCart\Helper\Data')->getConfigValue('general_locale');
+$storeManager  = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+$storeID       = $storeManager->getStore()->getStoreId(); 
+date_default_timezone_set('Europe/London');
+$time = date("H");	
+if($qty_increments == '')
+{
+	$qty_increments = 1;
+}else{
+	$qty_increments = $productStockObj->getQtyIncrements();
+}
+
+
+if ($customerSession->isLoggedIn()) {
+   $group_id = $customerSession->getCustomer()->getGroupId();
+   if($group_id == 16 || $group_id == 15 || $group_id == 17 || $group_id == 18 || $group_id == 19 || $group_id == 14 || $group_id == 20 || $group_id == 23)
+   {  
+   $qty_increments = 1;
+   $min_qty = "";
+   }
+}
+
+$myBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Rvs\General\Block\Product\Category');
+$categoryid ="";
+if($storeID==1){
+if ($currentCategory = $myBlock->getCurrentCategory()) {    
+     $categoryid= $currentCategory->getId();        
+}
+
+if($categoryid == "93" || $categoryid == "94" || $categoryid == "139" || $categoryid == "185" || $categoryid == "101" || $categoryid == "198" || $categoryid == "196" || $categoryid == "197")
+{
+	$txt = "Number Of Items:";
+}
+else
+{
+	$txt = "Number Of People:";
+}
+}else{
+	$txt = "Quantity:";
+}
+
+$_product = $block->getProduct();
+$pro_sku = $_product->getSku();
+$minimumPeople = $min_qty; 
+$buttonTitle = __('Add to Cart');
+
+if($mod_enable=='1'){
+	if($time>=$disabled_from || $disabled_to>$time){
+		echo "<div class='disabledcart' style='background: #e4e4e4;padding: 5px 5px;margin: 0px 0px 10px 0px;color: red;text-align: center;box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.25);'><div>OOPS - I AM SORRY BUT WE ARE CLOSED NOW</div><div> WE OPEN AGAIN AT 11 AM TO 10 PM EACH DAY</div></div>";
+	}
+	else{
+		?>
+
+<?php if ($_product->isSaleable()): ?>
+<div class="box-tocart">
+    <div class="fieldset">
+        <?php if ($block->shouldRenderQuantity()): ?>
+        <div class="field qty">
+			<?php 
+			$categoryIds = $_product->getCategoryIds();
+			if(in_array(139, $categoryIds) || in_array(149, $categoryIds) || in_array(152, $categoryIds)) {	
+			?>
+			<label class="label" for="qty">				
+				<?= /* @escapeNotVerified */ __('Number:') ?>					
+			</label>
+			<?php 
+			}
+			else{
+			?>
+            <label class="label" for="qty">
+				<?php echo $txt; ?>
+				<?php if($minimumPeople != ''): ?>
+					<?= __('<br /><span>It\'s a Minimum Order of %1 People.</span>',$minimumPeople); ?>
+				<?php endif; ?>
+			</label>
+			<?php 
+			}
+			if($min_qty == 0)
+			{ ?>
+				            <div class="control">
+				<?php /* <input type="number" name="qty" id="qty" value="<?= $block->getProductDefaultQty() * 1 ?>" title="<?= __('Qty') ?>" class="input-text qty" data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>" /> */ ?>
+				<input type="number" name="qty"  id="qty" value="1" title="<?= __('Qty') ?>" class="input-text qty" />
+			   				<span class="plus">+</span>
+				<span class="minus">-</span>				
+
+			</div>
+
+			<?php } else { ?>
+            <div class="control">
+				<?php /* <input type="number" name="qty" id="qty" value="<?= $block->getProductDefaultQty() * 1 ?>" title="<?= __('Qty') ?>" class="input-text qty" data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>" /> */ ?>
+				<input type="number" name="qty" data-msg-required="Invalid Qty" id="qty" value="<?php echo ($minimumPeople != ''?$minimumPeople : $block->getProductDefaultQty() * 1) ?>" title="<?= __('Qty') ?>" class="input-text qty" />
+			   
+				<span class="plus">+</span>
+				<span class="minus">-</span>				
+			</div>
+			<?php } ?>
+        </div>
+        <?php endif; ?>
+        <div class="actions">
+            <button type="submit"
+                    title="<?= /* @escapeNotVerified */ $buttonTitle ?>"
+                    class="action primary tocart"
+                    id="product-addtocart-button">
+                <span><?= /* @escapeNotVerified */ $buttonTitle ?></span>
+            </button>
+            <?= $block->getChildHtml('', true) ?>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+<?php if ($block->isRedirectToCartEnabled()) : ?>
+<script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "Magento_Catalog/product/view/validation": {
+                "radioCheckboxClosest": ".nested"
+            }
+        }
+    }
+</script>
+<?php else : ?>
+<script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "Magento_Catalog/js/validate-product": {}
+        }
+    }
+</script>
+<?php endif; ?>
+<script type="text/javascript">
+    require([
+        'jquery'
+    ], function($){
+        $('input[type="number"]').prop('readonly', true);
+        $('.minus').click(function(){
+            var oldVal = $(this).parent().find("input").val();
+            <?php if($minimumPeople != ''):?> 
+                if ( parseFloat(oldVal) >= 2 && parseFloat(oldVal) > parseFloat(<?php echo $minimumPeople ?>))
+                {
+                    var newVal = parseFloat(oldVal) - <?php echo $qty_increments; ?>;
+                    $(this).parent().find("input").val(newVal);
+                }
+            <?php else: ?>
+                if (parseFloat(oldVal) >= 2)
+                {
+                    var newVal = parseFloat(oldVal) - <?php echo $qty_increments; ?>;
+                    $(this).parent().find("input").val(newVal);
+                }
+            <?php endif; ?>
+        });
+
+        $('.plus').click(function(){
+            var oldVal = $(this).parent().find("input").val();
+            if (parseFloat(oldVal) >= 1) {
+                var newVal = parseFloat(oldVal) + <?php echo $qty_increments; ?>;
+                $(this).parent().find("input").val(newVal);
+            }
+        });
+    });
+</script>
+<?php
+	}
+}else{
+
+?>
+
+<?php if ($_product->isSaleable()): ?>
+<div class="box-tocart">
+    <div class="fieldset">
+        <?php if ($block->shouldRenderQuantity()): ?>
+        <div class="field qty">
+			<?php 
+			$categoryIds = $_product->getCategoryIds();
+			if(in_array(139, $categoryIds) || in_array(149, $categoryIds) || in_array(152, $categoryIds)) {	
+			?>
+			<label class="label" for="qty">				
+				<?= /* @escapeNotVerified */ __('Number:') ?>					
+			</label>
+			<?php 
+			}
+			else{
+			?>
+            <label class="label" for="qty">
+				<?php echo $txt; ?>
+				<?php if($minimumPeople != ''): 
+				if(in_array(197, $categoryIds)){?>
+				<?= __('<br /><span>It\'s a Minimum Order of %1 Boxes.</span>',$minimumPeople); ?>
+				<?php					
+				}else{
+				?>
+					<?= __('<br /><span>It\'s a Minimum Order of %1 People.</span>',$minimumPeople); ?>
+				<?php 
+				} endif; ?>
+			</label>
+			<?php 
+			}
+			if($min_qty == 0)
+			{ ?>
+				            <div class="control">
+				<?php /* <input type="number" name="qty" id="qty" value="<?= $block->getProductDefaultQty() * 1 ?>" title="<?= __('Qty') ?>" class="input-text qty" data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>" /> */ ?>
+				<input type="number" name="qty"  id="qty" value="1" title="<?= __('Qty') ?>" class="input-text qty" />
+			   				<span class="plus">+</span>
+				<span class="minus">-</span>				
+
+			</div>
+
+			<?php } else { ?>
+            <div class="control">
+				<?php /* <input type="number" name="qty" id="qty" value="<?= $block->getProductDefaultQty() * 1 ?>" title="<?= __('Qty') ?>" class="input-text qty" data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>" /> */ ?>
+				<input type="number" name="qty" data-msg-required="Invalid Qty" id="qty" value="<?php echo ($minimumPeople != ''?$minimumPeople : $block->getProductDefaultQty() * 1) ?>" title="<?= __('Qty') ?>" class="input-text qty" />
+			   
+				<span class="plus">+</span>
+				<span class="minus">-</span>				
+			</div>
+			<?php } ?>
+        </div>
+        <?php endif; ?>
+        <div class="actions">
+            <button type="submit"
+                    title="<?= /* @escapeNotVerified */ $buttonTitle ?>"
+                    class="action primary tocart"
+                    id="product-addtocart-button">
+                <span><?= /* @escapeNotVerified */ $buttonTitle ?></span>
+            </button>
+            <?= $block->getChildHtml('', true) ?>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+<?php if ($block->isRedirectToCartEnabled()) : ?>
+<script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "Magento_Catalog/product/view/validation": {
+                "radioCheckboxClosest": ".nested"
+            }
+        }
+    }
+</script>
+<?php else : ?>
+<script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "Magento_Catalog/js/validate-product": {}
+        }
+    }
+</script>
+<?php endif; ?>
+<script type="text/javascript">
+    require([
+        'jquery'
+    ], function($){
+        $('input[type="number"]').prop('readonly', true);
+        $('.minus').click(function(){
+            var oldVal = $(this).parent().find("input").val();
+            <?php if($minimumPeople != ''):?> 
+                if ( parseFloat(oldVal) >= 2 && parseFloat(oldVal) > parseFloat(<?php echo $minimumPeople ?>))
+                {
+                    var newVal = parseFloat(oldVal) - <?php echo $qty_increments; ?>;
+                    $(this).parent().find("input").val(newVal);
+                }
+            <?php else: ?>
+                if (parseFloat(oldVal) >= 2)
+                {
+                    var newVal = parseFloat(oldVal) - <?php echo $qty_increments; ?>;
+                    $(this).parent().find("input").val(newVal);
+                }
+            <?php endif; ?>
+        });
+
+        $('.plus').click(function(){
+            var oldVal = $(this).parent().find("input").val();
+            if (parseFloat(oldVal) >= 1) {
+                var newVal = parseFloat(oldVal) + <?php echo $qty_increments; ?>;
+                $(this).parent().find("input").val(newVal);
+            }
+        });
+    });
+</script>
+<?php } ?>

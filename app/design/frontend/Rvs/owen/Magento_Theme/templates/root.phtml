@@ -1,0 +1,24 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<!doctype html>
+<html <?= /* @escapeNotVerified */ $htmlAttributes ?>>
+    <head <?= /* @escapeNotVerified */ $headAttributes ?>>
+        <?= /* @escapeNotVerified */ $requireJs ?>
+        <?= /* @escapeNotVerified */ $headContent ?>
+        <?= /* @escapeNotVerified */ $headAdditional ?>
+    </head>
+    <body data-container="body" data-mage-init='{"loaderAjax": {}, "loader": { "icon": "<?= /* @escapeNotVerified */ $loaderIcon ?>"}}' <?= /* @escapeNotVerified */ $bodyAttributes ?>>
+	<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQFF4R9"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+        <?= /* @escapeNotVerified */ $layoutContent ?>
+    </body>
+</html>

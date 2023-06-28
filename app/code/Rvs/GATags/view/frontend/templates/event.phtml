@@ -1,0 +1,140 @@
+<?php
+$orderIncrementId = $block->getOrderId();
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$orderInfo = $objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId($orderIncrementId);
+
+$productRepository = $objectManager->get('\Magento\Catalog\Model\ProductRepository');
+$categoryCollection = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
+
+$writer = new \Zend_Log_Writer_Stream(BP . '/var/log/cstm.log');
+$logger = new \Zend_Log();
+$logger->addWriter($writer);
+$logger->info('__________________________________________________Order: ');
+$logger->info(print_r($orderIncrementId, true));
+
+$order_data = []; $x = 0;
+
+$orderid = $orderIncrementId;
+
+$custLastName 		= ($orderInfo->getCustomerLastname()) ? $orderInfo->getCustomerLastname() : '';
+$custFirsrName 		= ($orderInfo->getCustomerFirstname()) ? $orderInfo->getCustomerFirstname() : '';
+$ipaddress 			= ($orderInfo->getRemoteIp()) ? $orderInfo->getRemoteIp() : '';
+$customer_email 	= ($orderInfo->getCustomerEmail()) ? $orderInfo->getCustomerEmail() : '';
+$customerid 		= ($orderInfo->getCustomerId()) ? $orderInfo->getCustomerId() : ''; 
+$shippingAddress  	= ($orderInfo->getShippingAddress()) ? $orderInfo->getShippingAddress() : '';
+$total  			= ($orderInfo->getGrandTotal()) ? $orderInfo->getGrandTotal() : '';
+$TaxAmount  		= ($orderInfo->getTaxAmount()) ? $orderInfo->getTaxAmount() : '';
+$ShippingAmount  	= ($orderInfo->getShippingAmount()) ? $orderInfo->getShippingAmount() : '';
+$OrderCurrencyCode  = ($orderInfo->getOrderCurrencyCode()) ? $orderInfo->getOrderCurrencyCode() : '';
+$CouponCode  		= ($orderInfo->getCouponCode()) ? $orderInfo->getCouponCode() : '';
+
+$order_data['order_Id'] = $orderid;
+$order_data['total'] = $total;
+$order_data['TaxAmount'] = $TaxAmount;
+$order_data['ShippingAmount'] = $ShippingAmount;
+$order_data['OrderCurrencyCode'] = $OrderCurrencyCode;
+$order_data['CouponCode'] = $CouponCode;
+$order_data['ipaddress'] = $ipaddress;
+
+$AllVisibleItems = $orderInfo->getAllVisibleItems();
+
+$order_data['items'] = [];
+$item_data['items'] = [];
+
+foreach ($AllVisibleItems as $_item) {                    
+
+	$productObj = $productRepository->get($_item->getSku());
+    $categoryIds = $productObj->getCategoryIds();
+    $categories = $categoryCollection->create()->addAttributeToSelect('*')->addIdFilter($categoryIds);
+
+    $arr[$x]['product_sku'] = $_item->getSku();
+    $arr[$x]['product_name'] = $_item->getName();
+    $arr[$x]['product_discount_amount'] = $_item->getDiscountAmount();
+    $arr[$x]['product_qty'] = $_item->getQtyOrdered();
+    $arr[$x]['product_price'] = $_item->getPrice();
+    $arr[$x]['product_manufacturer'] = ($_item->getProduct()->getData('manufacturer')) ? $_item->getProduct()->getData('manufacturer') : '';
+    $arr[$x]['product_item_variant'] = [
+                'color'=> ($_item->getProduct()->getData('color')) ? $_item->getProduct()->getData('color') : '',
+                'textiles'=> ($_item->getProduct()->getData('textiles')) ? $_item->getProduct()->getData('textiles') : '', 
+                'size' => ($_item->getProduct()->getData('size')) ? $_item->getProduct()->getData('size') : ''
+            ];
+
+    $arr[$x]['categories'] = [];
+    foreach ($categories as $category) {
+        $cat_arr = $category->getName(); 
+        array_push($arr[$x]['categories'], $cat_arr);
+    }
+
+    array_push($order_data['items'],$arr[$x]);
+    $x++;
+}
+
+
+$transaction_id = $order_data['order_Id'];
+$value = $order_data['total'];
+$tax= $order_data['TaxAmount'];
+$shipping = $order_data['ShippingAmount'];
+$currency = $order_data['OrderCurrencyCode'];
+$coupon = $order_data['CouponCode'];
+$items = $order_data['items'];
+
+$z = 0;
+$c = 1;
+foreach ($items as $item_value) {
+	$items_array[$z]['item_id'] = $item_value['product_sku'];
+	$items_array[$z]['item_name'] = $item_value['product_name'];
+	$items_array[$z]['affiliation'] = '';
+	$items_array[$z]['coupon'] = $coupon;
+	$items_array[$z]['discount'] = $item_value['product_discount_amount'];
+	$items_array[$z]['index'] = $z;
+	$items_array[$z]['item_brand'] = $item_value['product_manufacturer'];
+	foreach ($item_value['categories'] as $cat_val) {
+		if ($c == 1) {
+			$items_array[$z]['item_category'] = $cat_val; 		
+		} else {
+			$items_array[$z]['item_category'.$c] = $cat_val;
+		}
+		$c++;
+	}
+	$items_array[$z]['item_list_id'] = '';
+	$items_array[$z]['item_list_name'] = '';
+	$items_array[$z]['item_variant'] = $item_value['product_item_variant'];
+	$items_array[$z]['location_id'] = $order_data['ipaddress'];
+	$items_array[$z]['price'] = $item_value['product_price'];
+	$items_array[$z]['quantity'] = $item_value['product_qty'];
+    array_push($item_data['items'],$items_array[$z]);
+    $z++;
+}
+
+
+$logger->info('Ordered Item: ');
+$logger->info(print_r($order_data['items'], true));
+
+
+$ordered_products = json_encode($item_data['items']);
+
+?>
+<script type="text/javascript">
+	console.log('testing phtml.................');
+	console.log('transaction_id: <?php echo $transaction_id; ?>');
+    console.log('value: <?php echo $value; ?>');
+    console.log('tax: <?php echo $tax; ?>');
+    console.log('shipping: <?php echo $shipping; ?>');
+    console.log('currency: <?php echo $currency; ?>');
+    console.log('coupon: <?php echo $coupon; ?>');
+    console.log('items: <?php echo $ordered_products; ?>');
+	console.log('_____________________________________________________________________________________________');
+</script>
+
+<script>
+	gtag("event", "purchase", {
+	    transaction_id: '<?php echo $transaction_id; ?>',
+	    value: <?php echo $value; ?>,
+	    tax: <?php echo $tax; ?>,
+	    shipping: <?php echo $shipping; ?>,
+	    currency: '<?php echo $currency; ?>',
+	    coupon: '<?php echo $coupon; ?>',
+	    items: <?php echo $ordered_products; ?>
+	});
+</script>

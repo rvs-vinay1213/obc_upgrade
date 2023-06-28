@@ -1,0 +1,154 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/**
+ * @var \Magento\Theme\Block\Html\Header\Logo $block
+ */
+?>
+<?php $storeName = $block->getThemeName() ? $block->getThemeName() : $block->getLogoAlt();?>
+<span data-action="toggle-nav" class="action nav-toggle"><i class="fa fa-bars"></i></span>
+<?php if ($block->isHomePage()): ?>
+    <strong class="logo">
+<?php else: ?>
+    <a class="logo" href="<?= $block->getUrl('') ?>" title="<?= /* @escapeNotVerified */ $storeName ?>">
+<?php endif ?>
+        <a  href="<?= $block->getUrl('') ?>" title="<?= /* @escapeNotVerified */ $storeName ?>">
+            <img src="<?= /* @escapeNotVerified */ $block->getLogoSrc() ?>"
+             alt="<?= /* @escapeNotVerified */ $block->getLogoAlt() ?>"
+             <?= $block->getLogoWidth() ? 'width="' . $block->getLogoWidth() . '"' : '' ?>
+             <?= $block->getLogoHeight() ? 'height="' . $block->getLogoHeight() . '"' : '' ?>
+                                                                                                                 /></a>
+<?php if ($block->isHomePage()):?>
+    </strong>
+<?php else:?>
+    </a>
+<?php endif?>
+<?php 
+if($block->getLogoAlt() == 'owensisters'){
+?>
+
+<?php	
+}else{
+?>
+<style>
+.ui-datepicker .ui-datepicker-calendar .ui-datepicker-today {
+    background: none !important;;
+    pointer-events: none !important;
+}
+
+.ui-datepicker .ui-datepicker-calendar .ui-datepicker-today > a {
+    color: #959595 !important;
+}
+</style>
+<?php	
+}
+?>
+<style>
+.toolbar-products .pages {
+    display: block !important;
+}
+.customer-account-index div#block-collapsible-nav ul li:nth-child(3) {
+    display: none;
+}
+.customer-account-index div#block-collapsible-nav ul li:nth-child(4) {
+    display: none;
+}
+
+.customer-account-index div#block-collapsible-nav ul li:nth-child(5) {
+    display: none;
+}
+div#block-shipping {
+    display: none;
+}
+td.ui-datepicker-week-end > a {
+    color: red !important;
+}
+/*.message.error {
+    margin: 0 0 10px;
+    padding: 12px 20px 12px 25px;
+    display: block;
+    font-size: 1.3rem;
+    background: #fae5e5;
+    color: #e02b27;
+    padding-left: 45px;
+    position: relative;
+    display: none;
+}*/
+.checkout-onepage-success .order-details-items.ordered {
+    display: none;
+}
+.blog-post-view .post-ftimg-hld {
+    display: none;
+}
+.checkout-cart-index .cart-summary .paypal{
+	display:none;
+}
+    .product-item .price-box {
+		text-align: center;
+		width: 100%;
+	}
+</style>
+<?php
+    /*$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$requestInterface = $objectManager->get('Magento\Framework\App\RequestInterface');
+$controllerName = $requestInterface->getControllerName(); 
+if($controllerName == 'category'){
+    $category = $objectManager->get('Magento\Framework\Registry')->registry('current_category');//get current category
+   $cat_id = $category->getId();
+    if($cat_id == 145)
+    {
+    ?>
+<snowfall>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+<snowflake><img src="<?php echo $this->getViewFileUrl('images/snowflake.png'); ?>" /></snowflake>
+</snowfall>
+<?php } }*/ ?>

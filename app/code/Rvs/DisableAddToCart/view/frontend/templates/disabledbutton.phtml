@@ -1,0 +1,16 @@
+<?php 
+$mod_enable = $this->helper('Rvs\DisableAddToCart\Helper\Data')->getGeneralConfig('enable');
+$disabled_text = $this->helper('Rvs\DisableAddToCart\Helper\Data')->getGeneralConfig('disabled_text');
+$disabled_from = $this->helper('Rvs\DisableAddToCart\Helper\Data')->getGeneralConfig('disabled_from');
+$disabled_to = $this->helper('Rvs\DisableAddToCart\Helper\Data')->getGeneralConfig('disabled_to');
+$storecountry = $this->helper('Rvs\DisableAddToCart\Helper\Data')->getGeneralConfig('storecountry');
+//$actionName = $this->helper('Rvs\DisableAddToCart\Helper\Data')->getRequestAction();
+
+date_default_timezone_set('Europe/London');
+$time = date("H");	
+if($mod_enable=='1'){
+	if($time>=$disabled_from || $disabled_to>$time){
+		$this->helper('Rvs\DisableAddToCart\Helper\Data')->getRequestAction();		
+	}
+}
+?>

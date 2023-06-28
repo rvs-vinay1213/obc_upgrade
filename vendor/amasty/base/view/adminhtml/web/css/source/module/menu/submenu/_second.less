@@ -1,0 +1,57 @@
+//
+//  Amasty Base Submenu Type Second UiComponent
+//  ______________________________________________
+
+//
+//  Common
+//  ----------------------------------------------
+
+& when (@media-common = true) {
+    #menu-menuamasty-base-menu .ambase-submenu.-second {
+        & {
+            & {
+                left: 100%;
+                opacity: 0;
+            }
+
+            &:extend(.admin__menu .level-0 > .submenu, .admin__menu .level-0._show > .submenu all);
+        }
+
+        &:not(._show) {
+            visibility: visible;
+            transform: translateX(-100%);
+        }
+
+        .admin__menu & {
+            transition-property: opacity;
+        }
+
+        &._show {
+            opacity: 1;
+        }
+
+        .ambase-menu-item {
+            & {
+                color: @color-gray65-almost;
+            }
+
+            &:hover {
+                color: @color-very-light-gray;
+            }
+        }
+
+        .ambase-label.active {
+            color: @color-gray65-almost;
+        }
+
+        .ambase-menu-item .ambase-menu-item {
+            & {
+                color: @color-very-light-gray;
+            }
+
+            &:hover {
+                color: @color-gray65-almost;
+            }
+        }
+    }
+}

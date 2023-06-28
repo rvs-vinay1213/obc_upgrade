@@ -1,0 +1,26 @@
+{
+    "name": "rvs/module-ordercol",
+    "description": "",
+    "type": "magento2-module",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Mage2Gen",
+            "email": "info@mage2gen.com"
+        },
+        {
+            "name": "Site Developer",
+            "email": "sitedevtesting@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Rvs\\OrderCol\\": ""
+        },
+        "files": [
+            "registration.php"
+        ]
+    }
+}

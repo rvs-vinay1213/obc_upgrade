@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="magenest_stripe_charge" resource="default" engine="innodb" comment="Charge table">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="ID"/>
+    <column xsi:type="varchar" name="charge_id" nullable="false" length="50" comment="Stripe Charge ID"/>
+    <column xsi:type="varchar" name="order_id" nullable="false" length="10" comment="Order ID"/>
+    <column xsi:type="int" name="customer_id" padding="11" unsigned="false" nullable="true" identity="false" comment="Customer ID" onCreate="migrateDataFrom(customer_id)"/>
+    <column xsi:type="varchar" name="status" nullable="true" length="15" comment="Charge Status"/>
+    <column xsi:type="timestamp" name="created_at" on_update="false" nullable="true" default="CURRENT_TIMESTAMP" comment="Created At"/>
+    <column xsi:type="varchar" name="method" nullable="true" length="50" comment="Payment method"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+    <index referenceId="MAGENEST_STRIPE_CHARGE_CHARGE_ID" indexType="btree">
+      <column name="charge_id"/>
+    </index>
+  </table>
+  <table name="magenest_stripe_customer" resource="default" engine="innodb" comment="Customer Table">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="ID"/>
+    <column xsi:type="int" name="magento_customer_id" padding="11" unsigned="false" nullable="false" identity="false" comment="Magento Customer ID"/>
+    <column xsi:type="varchar" name="stripe_customer_id" nullable="false" length="50" comment="Stripe Customer ID"/>
+    <column xsi:type="timestamp" name="created_at" on_update="false" nullable="true" default="CURRENT_TIMESTAMP" comment="Created At"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+  </table>
+  <table name="magenest_stripe_product_attribute" resource="default" engine="innodb" comment="Product Attribute Value Table">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="ID"/>
+    <column xsi:type="int" name="attribute_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Attribute ID" disabled="true"/>
+    <column xsi:type="int" name="store_id" padding="11" unsigned="false" nullable="false" identity="false" comment="Store ID" disabled="true"/>
+    <column xsi:type="int" name="entity_id" padding="11" unsigned="false" nullable="false" identity="false" comment="Product ID"/>
+    <column xsi:type="text" name="value" nullable="true" comment="Attribute Value"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+  </table>
+  <table name="magenest_stripe_card" resource="default" engine="innodb" comment="Card Table">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="ID"/>
+    <column xsi:type="int" name="magento_customer_id" padding="11" unsigned="false" nullable="true" identity="false" comment="Customer ID"/>
+    <column xsi:type="varchar" name="card_id" nullable="true" length="255" comment="Card ID"/>
+    <column xsi:type="varchar" name="status" nullable="true" length="10" default="active" comment="Status"/>
+    <column xsi:type="varchar" name="brand" nullable="true" length="20" comment="Card Brand"/>
+    <column xsi:type="varchar" name="last4" nullable="true" length="10" comment="Card last 4 digit"/>
+    <column xsi:type="varchar" name="exp_month" nullable="true" length="10" comment="Exp month"/>
+    <column xsi:type="varchar" name="exp_year" nullable="true" length="10" comment="Exp year"/>
+    <column xsi:type="timestamp" name="created_at" on_update="false" nullable="true" default="CURRENT_TIMESTAMP" comment="Created At"/>
+    <column xsi:type="text" name="threed_secure" nullable="true" comment="3d secure status" disabled="true"/>
+    <column xsi:type="varchar" name="three_d_secure" nullable="true" length="50" comment="3d secure status" onCreate="migrateDataFrom(threed_secure)"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+  </table>
+  <table name="magenest_stripe_source" resource="default" engine="innodb" comment="Source table">
+    <column xsi:type="varchar" name="source_id" nullable="false" length="50" comment="Stripe Source ID"/>
+    <column xsi:type="varchar" name="order_id" nullable="true" length="10" comment="Order ID" onCreate="migrateDataFrom(order_id)"/>
+    <column xsi:type="varchar" name="method" nullable="false" length="50" comment="Method"/>
+    <column xsi:type="timestamp" name="created_at" on_update="false" nullable="true" default="CURRENT_TIMESTAMP" comment="Created At"/>
+    <column xsi:type="int" name="quote_id" padding="11" unsigned="false" nullable="true" identity="false" comment="Quote id"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="source_id"/>
+    </constraint>
+  </table>
+</schema>

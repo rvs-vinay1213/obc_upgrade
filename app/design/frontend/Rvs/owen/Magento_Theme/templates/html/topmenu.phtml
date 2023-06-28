@@ -1,0 +1,41 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$customerSession = $objectManager->create('Magento\Customer\Model\Session');
+if ($customerSession->isLoggedIn()) {
+   $group_id = $customerSession->getCustomer()->getGroupId();
+   if($group_id == 15)
+   { ?>
+<style>
+.navigation > ul > li:first-child > a {
+    background: #008d0f !important;
+    color: #ffffff !important;
+}</style>
+   <?php } } ?>
+
+<?php
+/**
+ * Top menu for store
+ *
+ * @var $block \Magento\Theme\Block\Html\Topmenu
+ */
+ 
+?>
+<?php $columnsLimit = $block->getColumnsLimit() ?: 0; ?>
+<?php $_menu = $block->getHtml('level-top', 'submenu', $columnsLimit) ?>
+
+<nav class="navigation" data-action="navigation">
+    <ul class="menu-detail" data-mage-init='{"menu":{"responsive":true, "expanded":true, "position":{"my":"left top","at":"left bottom"}}}'>
+    <li class="level0 level-top parent ui-menu-item" role="presentation">
+	<!--<a href="<?php $block->getUrl(); ?>" class="level-top ui-corner-all"><span>Home</span></a></li>-->
+
+		<?= /* @escapeNotVerified */ $_menu ?>
+        <?= /* @escapeNotVerified */ $block->getChildHtml() ?>
+    </ul>
+</nav>

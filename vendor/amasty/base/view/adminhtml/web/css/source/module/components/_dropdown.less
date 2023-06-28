@@ -1,0 +1,47 @@
+//
+//  Amasty Base Dropdown UiComponent
+//  ______________________________________________
+
+//
+//  Common
+//  ----------------------------------------------
+
+& when (@media-common = true) {
+    .ambase-dropdown-component {
+        & > .ambase-label {
+            & {
+                position: relative;
+                display: block;
+                outline: none;
+                cursor: pointer;
+                user-select: none;
+                padding-right: 15px;
+            }
+
+            .ambase-menu-item &:hover {
+                color: @color-gray65-almost;
+            }
+
+            &:after {
+                &:extend(.abs-icon all);
+
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                right: 0;
+                content: @admin__page-nav-icon-down__content;
+                font-weight: @font-weight__bold;
+                font-size: 1.3rem;
+                transition: .3s all;
+            }
+        }
+
+        &.active > .ambase-label:after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        &:not(.active) > .ambase-content {
+            display: none;
+        }
+    }
+}

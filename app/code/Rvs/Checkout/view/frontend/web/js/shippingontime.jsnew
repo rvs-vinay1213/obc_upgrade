@@ -1,0 +1,39 @@
+define([
+    'jquery',
+    'Magento_Checkout/js/model/quote',
+    'Magento_Customer/js/customer-data',
+    'Magento_Checkout/js/checkout-data'
+], function ($, quote, customerData, checkoutData) {
+    'use strict';
+    
+    $('body').one('DOMNodeInserted','.additional-options', function() {
+    	
+       $(".additional-options").insertAfter(".amcheckout-delivery-date");
+    	$(".amcheckout-comment .control textarea").attr('placeholder','Please write here anything that we need to know regarding your order');
+    	setTimeout(function(){
+    		$("._has-datepicker").val("");
+    		$("input[name='date']").val('');
+    		$("div[name='amcheckoutDelivery.date'] input").val("");
+    		$("div[name='amcheckoutDelivery.time'] select option:eq(0)").prop("selected", true);
+    	$(".amcheckout-comment label span").text("Order Instructions");
+    	$(".amcheckout-comment .control textarea").attr('placeholder','Please write here anything that we need to know regarding your order');
+         }, 2000);
+    });
+    $('body').one('DOMNodeInserted','.form.methods-shipping table', function() {
+    
+    	$(".comment label span").text("Order Instructions");
+    	setTimeout(function(){
+            $("._has-datepicker").val("");
+            $("input[name='date']").val('');
+            $(".comment label span").text("Order Instructions");
+            $(".comment .control textarea").attr('placeholder','Please write here anything that we need to know regarding your order');
+         }, 2000);
+    
+
+
+    });
+   
+
+    function updateShipping() {
+    }
+});

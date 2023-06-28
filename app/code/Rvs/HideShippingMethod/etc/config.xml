@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <checkout>
+            <rvs_hideshippingmethod>
+                <enabled>1</enabled>
+                <carriers_hide></carriers_hide>
+                <customer>0</customer>
+                <weekdays>mon,tue,wed,thu,fri,sat,sun</weekdays>
+                <date_start></date_start>
+                <date_end></date_end>
+            </rvs_hideshippingmethod>
+        </checkout>
+    </default>
+</config>

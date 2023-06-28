@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="order.success.additional.info">
+            <!-- <block class="Rvs\GATags\Block\OrderData" name="gtag_order_data" template="Rvs_GATags::order/gtag_data.phtml" after="-"> -->
+            <block class="Magento\Checkout\Block\Onepage\Success" name="gtag_order_data" template="Rvs_GATags::event.phtml" after="-" />
+        </referenceContainer>
+    </body>
+</page>

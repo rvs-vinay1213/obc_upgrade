@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="owen" translate="label" sortOrder="400">
+            <label>Owen</label>
+        </tab>
+        <section id="rvs" translate="label" sortOrder="100" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Rvs</label>
+            <tab>owen</tab>
+            <resource>Rvs_General::general</resource>
+            <group id="general" translate="label" sortOrder="10" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="category" translate="label" sortOrder="10" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Select Category</label>
+                    <source_model>Rvs\General\Model\Config\Source\Category</source_model>
+                    <comment>This will allow selected category products visible on homepage.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

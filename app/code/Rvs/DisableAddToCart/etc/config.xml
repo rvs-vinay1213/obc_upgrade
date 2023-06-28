@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+		<disabledaddtocart>
+			<disabledcart>
+				<active>1</active>
+				<disabled_text></disabled_text>
+				<disabled_from></disabled_from>
+				<disabled_to></disabled_to>
+				<storecountry></storecountry>				
+			</disabledcart>
+		</disabledaddtocart>
+    </default>
+</config>

@@ -1,0 +1,11 @@
+<?php $subCats = $block->getCurrentCategory(); ?>
+<?php if(count($subCats)): ?>
+	<div class="sidebar-subcategories">
+		<h3><?= __('Categories'); ?></h3>
+		<ul>
+			<?php foreach($subCats as $category): ?>
+				<li><a href="<?php echo $category['link']; ?>"><?php echo $category['title'].' ('.$category['product_count'].')'; ?></a></li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+<?php endif; ?>

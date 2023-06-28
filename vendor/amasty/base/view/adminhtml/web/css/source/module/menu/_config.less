@@ -1,0 +1,130 @@
+//
+//  Amasty Base Config Menu
+//  ______________________________________________
+
+//
+//  Common
+//  ----------------------------------------------
+
+& when (@media-common = true) {
+    .module-version {
+        color: #ea7601;
+    }
+
+    .upgrade-error {
+        display: inline-block;
+    }
+
+    .amasty-conflicts-title,
+    .version-title,
+    .module-version {
+        letter-spacing: .025em;
+        font-weight: 600;
+        font-size: 1.7rem;
+    }
+
+    .amasty-conflicts-title {
+        margin: 25px 0 10px;
+    }
+
+    .amasty-module-version {
+        div:first-child {
+            margin-bottom: 10px;
+        }
+
+        .amasty-logo {
+            position: relative;
+            bottom: -9px;
+            display: inline-block;
+            max-height: 26px;
+        }
+    }
+
+    .accordion .config tr {
+        &[id*='amasty_not_instaled'],
+        &[id*='amasty_is_instaled'] {
+            .label {
+                font-size: @ambase__advertise__module-name__font-size;
+                font-weight: 600;
+            }
+        }
+    }
+
+    tr[id*='amasty_not_instaled'] .value {
+        color: #f70606;
+    }
+
+    tr[id*='amasty_is_instaled'] .value {
+        color: #0a820b;
+    }
+
+    // Start override block information Magento
+    a[id*='amasty_information'] {
+        display: none !important;
+    }
+    // End override block information Magento
+
+    a#_amasty_base_advertise-head {
+        & {
+            padding-left: 42px;
+        }
+
+        &:after {
+            content: '';
+            width: @ambase__advertise__fieldset-title__icon__size;
+            height: @ambase__advertise__fieldset-title__icon__size;
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: url('@{baseDir}Amasty_Base/images/hand.svg') no-repeat;
+            background-size: contain;
+        }
+    }
+
+    .ambase-unsubscribe {
+        .message-success {
+            & {
+                padding: 1.8rem 4rem 1.8rem 2rem;
+            }
+
+            &:before {
+                display: none;
+            }
+
+            span {
+                vertical-align: top;
+            }
+        }
+
+        img {
+            margin-right: 10px;
+            max-width: 20px;
+        }
+    }
+
+    .accordion {
+        .config td.value.with-tooltip {
+            font-size: inherit;
+        }
+
+        .config .value.with-tooltip div.tooltip {
+            margin-top: 10px;
+        }
+
+        .config .value.with-tooltip div.tooltip .tooltip-content {
+            max-width: 400px;
+            width: 400px;
+        }
+
+        .form-inline .config .value {
+            padding-right: 4rem;
+        }
+    }
+
+    .value.with-tooltip .select,
+    .value.with-tooltip .admin__control-table {
+        float: left;
+    }
+}

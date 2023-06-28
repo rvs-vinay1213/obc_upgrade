@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+		<css src="css/snowfall.css" />
+	</head>
+    <body>
+        <referenceBlock name="head.additional">
+            <block class="Magento\Framework\View\Element\Template" name="gtm.head" before="-" template="Magento_Theme::html/gtm_head.phtml" />
+        </referenceBlock>
+
+        <referenceContainer name="header.panel">
+            <block class="Magento\Framework\View\Element\Html\Links" name="CUSTOMER-ACCOUNT-LOGIN">
+                <arguments>
+                    <argument name="css_class" xsi:type="string">header links</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="header-wrapper">
+        	<container name="header.left" htmlTag="div" htmlClass="header-left">
+        		<block class="Magento\Cms\Block\Block" name="header.register" before="logo">
+	                <arguments>
+	                    <argument name="block_id" xsi:type="string">header-register</argument>
+	                </arguments>
+	            </block>
+	            <block class="Magento\Cms\Block\Block" name="header.info" after="header.register">
+	                <arguments>
+	                    <argument name="block_id" xsi:type="string">header-info</argument>
+	                </arguments>
+	            </block>
+        	</container>
+        	<container name="header.middle" htmlTag="div" htmlClass="header-middle"></container>
+            <!-- <container name="header-wrapper-custom" htmlTag="div" htmlClass="header-wrapper-custom">
+                <block class="Magento\Theme\Block\Html\Header\Logo" name="logo.new">
+                    <arguments>
+                        <argument name="logo_img_width" xsi:type="number">189</argument>
+                        <argument name="logo_img_height" xsi:type="number">64</argument>
+                    </arguments>
+                </block>
+            </container> -->
+        	<container name="header.right" htmlTag="div" htmlClass="header-right">
+				<container name="header.right.content" htmlTag="div" htmlClass="header-right-content">
+					<block class="Magento\Cms\Block\Block" name="header.social"  before="header.account.links">
+						<arguments>
+							<argument name="block_id" xsi:type="string">header-follow-us</argument>
+						</arguments>
+					</block>
+					<block class="Rvs\General\Block\Customer" name="main.links" template="Rvs_General::header/main_links.phtml">
+						<container name="header.account.links" htmlClass="account-links" htmlTag="ul" before="-">
+                            <block class="Rvs\General\Block\Customer" name="login.links" template="Rvs_General::header/login.phtml" />
+                            <!-- <block class="Magento\Framework\View\Element\Html\Link\Current" name="header-customer-account-login-link">
+                                <arguments>
+                                    <argument name="path" xsi:type="string">customer/account/login</argument>
+                                    <argument name="label" xsi:type="string" translate="true">Log In</argument>
+                                    <argument name="sortOrder" xsi:type="number">10</argument>
+                                </arguments>
+                            </block>
+                            <block class="Magento\Framework\View\Element\Html\Link\Current" name="header-customer-account-register-link">
+                                <arguments>
+                                    <argument name="path" xsi:type="string">customer/account/register</argument>
+                                    <argument name="label" xsi:type="string" translate="true">Register</argument>
+                                    <argument name="sortOrder" xsi:type="number">10</argument>
+                                </arguments>
+                            </block> -->
+							<block class="Magento\Framework\View\Element\Html\Link\Current" name="header-customer-account-link">
+								<arguments>
+									<argument name="path" xsi:type="string">customer/account</argument>
+									<argument name="label" xsi:type="string" translate="true">My Account</argument>
+									<argument name="sortOrder" xsi:type="number">10</argument>
+								</arguments>
+							</block>
+							<block class="Magento\Framework\View\Element\Html\Link\Current" name="header-customer-orders-link">
+								<arguments>
+									<argument name="path" xsi:type="string">sales/order/history</argument>
+									<argument name="label" xsi:type="string" translate="true">My Orders</argument>
+									<argument name="sortOrder" xsi:type="number">20</argument>
+								</arguments>
+							</block>
+						</container>
+					</block>
+				</container>
+        	</container>
+        </referenceContainer>
+        
+        <referenceContainer name="footer">
+        </referenceContainer>
+        <referenceContainer name="footer">
+            <block class="Magento\Store\Block\Switcher" name="store_switcher" as="store_switcher" after="footer_links" template="Magento_Store::switch/stores.phtml"/>
+            <block class="Magento\Cms\Block\Block" name="footer.info" before="copyright">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">footer-info</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Cms\Block\Block" name="footer.all.links" before="footer.info">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">footer-links</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Cms\Block\Block" name="homepage.brand.bottom" before="footer.all.links">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">homepage-brand-bottom</argument>
+                </arguments>
+            </block>	
+			<block class="Magento\Framework\View\Element\Template" name="footer.copyright" after="footer.info" template="Magento_Theme::footercopyright.phtml"/>			
+        </referenceContainer>
+        <referenceBlock name="report.bugs" remove="true"/>
+        <referenceBlock name="footer_links" remove="true"/>
+        <referenceBlock name="form.subscribe" remove="true"/>
+        <!-- <referenceContainer name="header.panel.wrapper" remove="true"/> -->
+        <move element="copyright" destination="before.body.end"/>
+        <move element="logo" destination="header.middle"/>
+        <move element="top.search" destination="header.right.content" after="header.social" />
+        <move element="minicart" destination="header.right.content" after="-" />
+		<referenceBlock name="reviews.tab" remove="true" />
+		<referenceBlock name="product.review.form" remove="true" />
+		<referenceBlock name="product.info.review" remove="true" />
+		<referenceBlock name="sale.reorder.sidebar" remove="true"/>
+		<referenceContainer name="copyright" remove="true"/>
+    </body>
+</page>

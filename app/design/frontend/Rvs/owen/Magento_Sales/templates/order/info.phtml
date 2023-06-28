@@ -1,0 +1,86 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<style>
+.order-date {
+    margin-top: 3px !important;
+}
+</style>
+<?php /** @var $block \Magento\Sales\Block\Order\Info */ ?>
+<?php $_order = $block->getOrder() ?>
+<div class="block block-order-details-view">
+    <div class="block-title">
+        <strong><?= /* @escapeNotVerified */ __('Order Information') ?></strong>
+    </div>
+    <div class="block-content">
+    <?php if (!$_order->getIsVirtual()): ?>
+        <div class="box box-order-shipping-address">
+            <strong class="box-title"><span><?= /* @escapeNotVerified */ __('Shipping Address') ?></span></strong>
+            <div class="box-content">
+                <address><?= /* @escapeNotVerified */ $block->getFormattedAddress($_order->getShippingAddress()) ?></address>
+            </div>
+        </div>
+
+        <div class="box box-order-shipping-method">
+            <strong class="box-title">
+                <span><?= /* @escapeNotVerified */ __('Delivery Method') ?></span>
+            </strong>
+            <div class="box-content">
+            <?php if ($_order->getShippingDescription()): ?>
+                <?= $block->escapeHtml($_order->getShippingDescription()) ?>
+            <?php else: ?>
+                <?= /* @escapeNotVerified */ __('No shipping information available') ?>
+            <?php endif; ?>
+            </div>
+        </div>
+    <?php endif; ?>
+        <div class="box box-order-billing-method">
+            <strong class="box-title">
+                <span><?= /* @escapeNotVerified */ __('Delivery Information') ?></span>
+            </strong>
+            <div class="box-content">
+                <?php
+				$order_id = $_order->getEntityId();
+				$objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // Instance of object manager
+$resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+$connection = $resource->getConnection();
+$sql = "Select * FROM amasty_amcheckout_delivery where order_id = '$order_id'";
+$result = $connection->fetchAll($sql); 
+foreach($result as $val)
+{
+	$originalDate = $val['date'];
+$newDate = date("d-m-Y", strtotime($originalDate));
+echo "Delivery Date - ".$newDate.'<br />';
+
+echo "Delivery Time - ".$val['time'].':00';
+
+}	
+				?>
+            </div>
+        </div>
+
+        <div class="box box-order-billing-address">
+            <strong class="box-title">
+                <span><?= /* @escapeNotVerified */ __('Billing Address') ?></span>
+            </strong>
+            <div class="box-content">
+                <address><?= /* @escapeNotVerified */ $block->getFormattedAddress($_order->getBillingAddress()) ?></address>
+            </div>
+        </div>
+        <div class="box box-order-billing-method">
+            <strong class="box-title">
+                <span><?= /* @escapeNotVerified */ __('Payment Method') ?></span>
+            </strong>
+            <div class="box-content">
+                <?= $block->getPaymentInfoHtml() ?>
+            </div>
+        </div>
+		
+    </div>
+</div>

@@ -1,0 +1,69 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2023 Amasty (https://www.amasty.com)
+ * @package One Step Checkout Core for Magento 2
+ */
+use Amasty\CheckoutCore\Api\Data\CustomFieldsConfigInterface;
+use Magento\Store\Model\ScopeInterface;
+
+/** @var \Amasty\CheckoutCore\Block\Adminhtml\Field\Edit\CustomFields $block */
+/** @var \Magento\Framework\Escaper $escaper */
+
+$countOfCustomFields = CustomFieldsConfigInterface::COUNT_OF_CUSTOM_FIELDS;
+$index = CustomFieldsConfigInterface::CUSTOM_FIELD_INDEX;
+?>
+
+<div id="custom-fields"
+     class="amcheckout-fields-wrapper"
+     data-mage-init='{
+        "Magento_Ui/js/modal/modal": {
+            "buttons": false,
+            "modalClass": "amcheckout-custom-fields",
+            "clickableOverlay": true,
+            "responsive": true,
+            "title": "<?= $escaper->escapeHtml(__('Custom Fields')) ?>"
+        }
+    }'>
+    <form action="<?= $escaper->escapeUrl(
+        $block->getUrl('*/*/newAction', [ScopeInterface::SCOPE_STORE => $block->getCurrentStoreId()])
+    ) ?>">
+        <?php for ($index; $index <= $countOfCustomFields; $index++): ?>
+            <?php if (!$block->isExistField($index)): ?>
+                <div class="amcheckout-field-wrapper">
+                    <input type="checkbox" class="amcheckout-checkbox"
+                           name="custom-field-<?= $escaper->escapeHtmlAttr($index) ?>"
+                           id="custom-field-<?= $escaper->escapeHtmlAttr($index) ?>"/>
+                    <label for="custom-field-<?= $escaper->escapeHtmlAttr($index) ?>">
+                        <?= $escaper->escapeHtml(__('Custom Field ')) . $escaper->escapeHtml($index) ?>
+                    </label>
+                </div>
+            <?php endif; ?>
+        <?php endfor; ?>
+
+        <?php if (!$block->isAllCustomFieldsAdded()): ?>
+            <button class="amcheckout-button" type="submit"><?= $escaper->escapeHtml(__('Submit')) ?></button>
+        <?php else: ?>
+            <p><?= $escaper->escapeHtml(__("All custom fields have already been added. " .
+                        "You can drag and drop them to the 'Disabled Checkout Fields' section, " .
+                        "if you don't need these fields anymore.")) ?></p>
+        <?php endif; ?>
+    </form>
+    <div class="amcheckout-note">
+        <p><?= $escaper->escapeHtml(__('Need more Custom fields?')) ?><br/>
+            <?php if (!$block->isExistOrderAttributesExt()): ?>
+                <?= $escaper->escapeHtml(__('Please consider ')) ?>
+                <a href="https://amasty.com/order-attributes-for-magento-2.html"
+                   title="<?= $escaper->escapeHtmlAttr(__('Order Attributes')) ?>"
+                   target="_blank"><?= $escaper->escapeHtml(__('Order Attributes')) ?></a>
+                <?= $escaper->escapeHtml(__(' extension.')) ?>
+            <?php else: ?>
+                <?= $escaper->escapeHtml(__('Please use ')) ?>
+                <a href="<?= $escaper->escapeUrl($block->getUrl('amorderattr/attribute/index')) ?>"
+                   title="<?= $escaper->escapeHtmlAttr(__('Order Attributes')) ?>"
+                   target="_blank"><?= $escaper->escapeHtml(__('Order Attributes')) ?></a>
+                <?= $escaper->escapeHtml(__(' extension.')) ?>
+            <?php endif; ?>
+        </p>
+    </div>
+</div>

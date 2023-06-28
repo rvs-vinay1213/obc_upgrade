@@ -1,0 +1,66 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+/** @var \Magento\Contact\Block\ContactForm $block */
+?>
+<div class="contactMap">
+<iframe width="100%" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.co.uk/maps?ie=UTF8&amp;cid=13005421896409142391&amp;q=Owen+Brothers+Catering&amp;gl=GB&amp;hl=en&amp;hq=Owen+Brothers+Catering&amp;hnear=&amp;t=m&amp;ll=51.448083,-0.162156&amp;spn=0.004681,0.009141&amp;z=16&amp;iwloc=A&amp;output=embed"></iframe>
+</div>
+
+<div class="contact-content clearfix">
+	<div class="contactForm">
+		<h4>We would love to hear from you about any questions that you have about us or our menus!<br />Please complete below and we’ll be in touch as soon as possible.</h4>
+		<form class="form contact"
+			  action="<?= $block->escapeUrl($block->getFormAction()) ?>"
+			  id="contact-form"
+			  method="post"
+			  data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>"
+			  data-mage-init='{"validation":{}}'>
+			<fieldset class="fieldset">
+				<div class="field name required">
+					<label class="label" for="name"><span><?= $block->escapeHtml(__('Name')) ?></span></label>
+					<div class="control">
+						<input name="name" id="name" title="<?= $block->escapeHtmlAttr(__('Name')) ?>" value="<?= $block->escapeHtmlAttr($this->helper('Magento\Contact\Helper\Data')->getPostValue('name') ?: $this->helper('Magento\Contact\Helper\Data')->getUserName()) ?>" class="input-text" type="text" data-validate="{required:true}"/>
+					</div>
+				</div>
+				<div class="field email required">
+					<label class="label" for="email"><span><?= $block->escapeHtml(__('Email')) ?></span></label>
+					<div class="control">
+						<input name="email" id="email" title="<?= $block->escapeHtmlAttr(__('Email')) ?>" value="<?= $block->escapeHtmlAttr($this->helper('Magento\Contact\Helper\Data')->getPostValue('email') ?: $this->helper('Magento\Contact\Helper\Data')->getUserEmail()) ?>" class="input-text" type="email" data-validate="{required:true, 'validate-email':true}"/>
+					</div>
+				</div>
+				<div class="field telephone">
+					<label class="label" for="telephone"><span><?= $block->escapeHtml(__('Phone Number')) ?></span></label>
+					<div class="control">
+						<input name="telephone" id="telephone" title="<?= $block->escapeHtmlAttr(__('Phone Number')) ?>" value="<?= $block->escapeHtmlAttr($this->helper('Magento\Contact\Helper\Data')->getPostValue('telephone')) ?>" class="input-text" type="text" />
+					</div>
+				</div>
+				<div class="field comment required">
+					<label class="label" for="comment"><span><?= $block->escapeHtml(__('What’s on your mind?')) ?></span></label>
+					<div class="control">
+						<textarea name="comment" id="comment" title="<?= $block->escapeHtmlAttr(__('What’s on your mind?')) ?>" class="input-text" cols="5" rows="3" data-validate="{required:true}"><?= $block->escapeHtml($this->helper('Magento\Contact\Helper\Data')->getPostValue('comment')) ?></textarea>
+					</div>
+				</div>
+				<?= $block->getChildHtml('form.additional.info') ?>
+			</fieldset>			
+					
+			<div class="actions-toolbar">
+				<div class="primary">
+					<input type="hidden" name="hideit" id="hideit" value="" />
+					<button type="submit" title="<?= $block->escapeHtmlAttr(__('Submit')) ?>" class="action submit primary">
+						<span><?= $block->escapeHtml(__('Submit')) ?></span>
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="contactInfo">
+		<p>Our purpose built kitchen is a stones throw away from Wandsworth Common Station. It takes us approximately 20 minutes to get into central London so we are ideally located to serve most clients in and around that area as well as around the M25.</p>
+		<p>Owen Brothers Catering Ltd<br />Unit C3-C4<br />32-34 Jaggard Way<br />London<br />SW12 8SG</p>
+		<p>Tel : (0208) 675 2905<br />Email : <a href="mailto:info@owenbrotherscatering.com">info@owenbrotherscatering.com</a></p>
+	</div>
+</div>

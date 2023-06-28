@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <!-- <block class="Rvs\General\Block\Catalog\Category" name="sidear.category.list" template="Rvs_General::catalog/category/list.phtml" /> -->
+        <block class="Magento\Cms\Block\Block" name="banner.sidebar.block">
+	       	<arguments>
+	            <argument name="block_id" xsi:type="string">banner-block-sidebar</argument>
+	       	</arguments>
+	   	</block>
+        <!-- <move element="sidear.category.list" destination="sidebar.main" before="-"/> -->
+        <move element="banner.sidebar.block" destination="sidebar.main" after="-"/>
+    </body>
+</page>

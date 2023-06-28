@@ -1,0 +1,82 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/**
+ * Product view template
+ *
+ * @see \Magento\Catalog\Block\Product\View\Description
+ */
+?>
+<style>
+.product.attribute.overview {
+    clear: both;
+}
+.imges-box {
+    float: left;
+    margin-left: 0px;
+    width: 60px;
+    margin-bottom: 5px;
+}.product.data.items .multiselect-ctr {
+    display: none;
+}
+</style>
+<?php
+
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+$_product = $block->getProduct();
+$_call = $block->getAtCall();
+$_code = $block->getAtCode();
+$_className = $block->getCssClass();
+$_attributeLabel = $block->getAtLabel();
+$_attributeType = $block->getAtType();
+$_attributeAddAttribute = $block->getAddAttribute();
+
+$renderLabel = true;
+// if defined as 'none' in layout, do not render
+if ($_attributeLabel == 'none') {
+    $renderLabel = false;
+}
+
+if ($_attributeLabel && $_attributeLabel == 'default') {
+    $_attributeLabel = $_product->getResource()->getAttribute($_code)->getStoreLabel();
+}
+if ($_attributeType && $_attributeType == 'text') {
+    $_attributeValue = ($_helper->productAttribute($_product, $_product->$_call(), $_code)) ? $_product->getAttributeText($_code) : '';
+} else {
+    $_attributeValue = $_helper->productAttribute($_product, $_product->$_call(), $_code);
+}
+?>
+<div class="multiselect-ctr">
+<div class="multiselect-ctrs">
+   
+	
+	<?php 
+        $data = explode(',',$_product->getData('food_standards')??'');
+        foreach($data as $value):            
+    ?>
+        <?php 
+        $attr = $_product->getResource()->getAttribute('food_standards');
+        if ($attr->usesSource()): ?>
+            <?php 
+                $option_value = $attr->getSource()->getOptionText($value);
+				if($option_value != '')
+				{
+            ?>
+            <div class="imges-box"><img src="<?php echo $block->getUrl(); ?>pub/media/<?php echo $option_value; ?>.jpg" /></div>
+
+				<?php } endif;?>
+    <?php endforeach;?>
+</div>	
+	</div>
+
+<?php if ($_attributeValue): ?>
+<div class="product attribute <?= /* @escapeNotVerified */ $_className ?>">
+    <?php if ($renderLabel): ?><strong class="type"><?= /* @escapeNotVerified */ $_attributeLabel ?></strong><?php endif; ?>
+    <div class="value" <?= /* @escapeNotVerified */ $_attributeAddAttribute ?>><?= /* @escapeNotVerified */ $_attributeValue ?></div>
+</div>
+<?php endif; ?>

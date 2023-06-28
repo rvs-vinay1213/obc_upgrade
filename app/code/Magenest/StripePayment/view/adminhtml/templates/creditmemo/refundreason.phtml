@@ -1,0 +1,26 @@
+<?php
+/**
+ * Copyright © 2018 Magenest. All rights reserved.
+ */
+
+?>
+<?php if($block->canShowOption()){ ?>
+    <div class="admin-refund-reason">
+        <div class="admin__page-section-item-title">
+            <span class="title"><?= /* @noEscape  */ __('Stripe Refund Reason')?></span>
+        </div>
+        <div>
+            <select name="refund_reason">
+                <option value=""><?= /* @noEscape  */ __('No Reason')?></option>
+                <option value="duplicate"><?= /* @noEscape  */ __('Duplicate')?></option>
+                <option value="fraudulent"><?= /* @noEscape  */ __('Fraudulent')?></option>
+                <option value="requested_by_customer"><?= /* @noEscape  */ __('Requested By Customer')?></option>
+            </select>
+        </div>
+    </div>
+    <style>
+        .admin-refund-reason{
+            margin-top: 20px
+        }
+    </style>
+<?php } ?>

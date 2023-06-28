@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="customer_login">
+        <observer name="customer_login_cg" instance="Rvs\CustomerGroup\Observer\CustomerLogin" />
+    </event>
+    <event name="customer_logout">
+        <observer name="customer_logout_cg" instance="Rvs\CustomerGroup\Observer\CustomerLogout" />
+    </event>
+    <!-- <event name="checkout_onepage_controller_success_action">
+        <observer name="mail_order_csv" instance="Rvs\CustomerGroup\Observer\GenerateCsvAfterPlaceOrder" />
+    </event> -->
+   <event name="checkout_submit_all_after">
+        <observer name="admin_order_save_after_csv" instance="Rvs\CustomerGroup\Observer\AdminGenerateCsvAfterCreateOrder" />
+    </event>
+</config>

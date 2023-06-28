@@ -1,0 +1,30 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+
+	<head>
+        <title>WE ARE CLOSED NOW</title>
+        <!--
+		demo
+		<css src="Rvs_DisableAddToCart::css/css.css"/>
+		<script src="Rvs_DisableAddToCart::js/js.js"/>
+		<css src="jquery/fileUploader/css/jquery.fileupload-ui.css"/>
+		<script src="path/file.js" defer="defer"/>
+		<link src="http://url.com" src_type="url"/>
+		<remove src="path/remove/file.css"/>
+
+		-->
+    </head>
+
+    <body>
+
+
+        <referenceContainer name="sidebar.main">
+            <block class="Rvs\DisableAddToCart\Block\Index\Sidebar" name="disableaddtocart_index_sidebar" before="-" template="Rvs_DisableAddToCart::disableaddtocart_index_sidebar.phtml"/>
+        </referenceContainer>
+
+        <referenceContainer name="content">
+            <block class="Rvs\DisableAddToCart\Block\Index\Index" name="disableaddtocart_index_index" template="Rvs_DisableAddToCart::disableaddtocart_index_index.phtml"/>
+        </referenceContainer>
+
+
+    </body>
+</page>

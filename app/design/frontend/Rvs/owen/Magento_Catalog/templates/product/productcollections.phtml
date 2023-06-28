@@ -1,0 +1,24 @@
+ <?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+/** @var \Magento\Catalog\Model\ResourceModel\Product\Collection $productCollection */
+$productCollection = $objectManager->create('Magento\Catalog\Model\ResourceModel\Product\Collection');
+/** Apply filters here */
+$collection = $productCollection->addAttributeToSelect('*')
+            ->load();
+$StockState = $objectManager->get('\Magento\CatalogInventory\Api\StockStateInterface');			
+			echo 'product_types <br>';
+foreach ($collection as $product){
+     //echo $product->getName().'<br>';
+	  //echo $product->getSku().'<br>';
+	  //echo $product->getDescription().'<br>';
+	  //echo $product->getPrice().'<br>';
+	  //echo $product->getTypeId().'<br/>';
+	 //  echo $StockState->getStockQty($product->getId(), $product->getStore()->getWebsiteId()).'<br/>';
+	 
+	 echo '<pre>';
+	 print_r($product->getData());
+	  echo '</pre>';
+	  echo '<hr><br>';
+	  exit;
+}  
+?>

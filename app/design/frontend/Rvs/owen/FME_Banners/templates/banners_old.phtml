@@ -1,0 +1,155 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+$banners = $block->getFrontBanners();
+
+?>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+.w3-content {
+    max-width: 100% !important;
+    margin: auto;
+}
+.w3-section, .w3-code {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+</style>
+<style>
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor:pointer;
+  height: 13px;
+  width: 13px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {display: block;} 
+  to {margin: 0;}
+}
+
+@keyframes fade {
+ from {opacity: .4} 
+  to {opacity: 1}
+}
+</style>
+
+<div class="w3-content w3-section">
+<?php  foreach($banners as $index => $banner){  ?>
+<a target="<?php echo $banner->getTarget() ?>" href="<?php echo $banner->getLink() ?>">
+<img class="desktop-image" alt="<?php echo $banner->getTitle() ?>" src=<?php echo $block->getMediaDirectoryUrl().$banner->getBannerimage() ?> />
+<?php if(!empty($banner->getMobileimage())): ?>
+<img class="mobile-image" alt="<?php echo $banner->getTitle() ?>" src=<?php echo $block->getMediaDirectoryUrl().$banner->getMobileimage() ?> />
+<?php endif; ?>
+</a>
+
+<?php } ?>
+</div>
+<?php  
+$plus = 1;
+foreach($banners as $index => $banner){  ?>
+<div style="text-align:center">
+  <span class="dot" onclick="currentSlide(<?php echo $plus++; ?>)"></span> 
+</div>
+<?php }$plus++ ?>
+<script type="text/javascript">
+var slideIndex = 0;
+  var slides = document.getElementsByClassName("desktop-image");
+
+showSlides();
+
+function showSlides() {    
+    var i;    
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none"; 
+    }
+    slideIndex++;
+    if (slideIndex> slides.length) {slideIndex = 1} 
+    slides[slideIndex-1].style.display = "block"; 
+    setTimeout(showSlides, 2000); // Change image every 5 seconds
+}
+
+function currentSlide(no) {
+    var i;    
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none"; 
+    }
+    slideIndex = no;
+    slides[no-1].style.display = "block";
+}
+
+function plusSlides(n) {
+  var newslideIndex = slideIndex + n;
+  if(newslideIndex < 4 && newslideIndex > 0){
+     currentSlide(newslideIndex);
+  }
+}  </script>

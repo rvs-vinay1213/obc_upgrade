@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<type name="\Magento\Catalog\Pricing\Render\FinalPriceBox">
+        <plugin name="rvs_template_finalprice" type="Rvs\General\Plugin\FinalPricePlugin" />
+	</type>
+	<!-- <type name="\Magento\Catalog\Model\Layer\Filter\Category">
+        <plugin name="category_label_layered" type="Rvs\General\Plugin\Catalog\Model\Layer\Filter\Category" />
+	</type> -->
+	<type name="\Magento\Checkout\Model\DefaultConfigProvider">
+        <plugin name="sku_order_summary" type="Rvs\General\Plugin\Checkout\Model\DefaultConfigProvider" />
+	</type>
+	<preference for="\Magento\Framework\Mail\Transport" type="Rvs\General\Model\Transport"/>
+</config>

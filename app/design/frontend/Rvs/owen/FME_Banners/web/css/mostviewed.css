@@ -1,0 +1,50 @@
+/**
+ * Solwin Infotech
+ * Solwin Most View Sold Extension
+ *
+ * @category   Solwin
+ * @package    Solwin_MostViewSold
+ * @copyright  Copyright © 2006-2016 Solwin (https://www.solwininfotech.com)
+ * @license    https://www.solwininfotech.com/magento-extension-license/ 
+ */
+
+ .mostviewed-sold {
+	display: inline-block;
+	width: 100%;
+	margin: 20px 0;
+}
+.mostviewed-sold > div {
+    display: block;
+    margin-bottom: 5px;
+}
+.mostviewed-sold > div label {
+	margin-right: 5px;
+	font-size: 14px;
+	font-weight: 600;
+	color: #666679;
+}
+.mostviewed-sold > div span {
+    background: none repeat scroll 0 0 #6ebe15;
+    border-radius: 2px;
+    color: #ffffff;
+    font-size: 13px;
+    height: 19px;
+    margin-right: 4px;
+    padding: 0 5px;
+    text-align: center;
+    width: auto;
+}
+.mostviewed-sold .mostviewd:before,
+.mostviewed-sold .mostsold:before {
+    content: '\2713';
+	font-size: 16px;
+	line-height: 16px;
+	color: #1979c3;
+	font-family: 'luma-icons';
+	margin: -2px 5px 0 0;
+	vertical-align: middle;
+	display: inline-block;
+	font-weight: normal;
+	overflow: hidden;
+	text-align: center;
+}
