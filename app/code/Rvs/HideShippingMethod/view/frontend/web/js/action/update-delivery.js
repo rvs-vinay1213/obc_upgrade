@@ -1,7 +1,7 @@
 define(
     [
-        'Amasty_CheckoutCore/js/model/resource-url-manager',
-        'Amasty_CheckoutCore/js/model/delivery',
+        'Amasty_Checkout/js/model/resource-url-manager',
+        'Amasty_Checkout/js/model/delivery',
         'Magento_Checkout/js/model/quote',
         'mage/storage',
         'Magento_Checkout/js/model/error-processor',

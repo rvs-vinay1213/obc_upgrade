@@ -56,7 +56,7 @@ if ($_attributeType && $_attributeType == 'text') {
    
 	
 	<?php 
-        $data = explode(',',$_product->getData('food_standards')??'');
+        $data = explode(',',$_product->getData('food_standards'));
         foreach($data as $value):            
     ?>
         <?php 

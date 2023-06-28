@@ -2,24 +2,17 @@
 /**
  * @author Amasty Team
  * @copyright Copyright (c) 2020 Amasty (https://www.amasty.com)
- * @package Amasty_CheckoutCore
+ * @package Amasty_Checkout
  */
 ?>
 <?php
 /** @var \Magento\Checkout\Block\Onepage $block */
 /** @var \Amasty\Checkout\Helper\Onepage $helper */
 /** @var \Amasty\Checkout\Model\Optimization\BundleService $bundleService */
-// $helper = $block->getData('amcheckout_helper');
-// $bundleService = $block->getData('bundleService');
-// $design = $helper->isModernCheckoutDesign() ? 'modern' : 'classic';
-// $layout = $helper->getDesignLayout();
-$onepageDataProvider = $block->getData('amcheckoutOnepageDataProvider');
+$helper = $block->getData('amcheckout_helper');
 $bundleService = $block->getData('bundleService');
-$styleSwitcher = $block->getData('amcheckoutStyleSwitcher');
-$design = $styleSwitcher->isModernCheckoutDesign() ? 'modern' : 'classic';
-$layout = $styleSwitcher->getDesignLayout();
-$layoutTemplate = $styleSwitcher->getLayoutTemplate();
-
+$design = $helper->isModernCheckoutDesign() ? 'modern' : 'classic';
+$layout = $helper->getDesignLayout();
 ?>
 
 <div id="checkout"
@@ -27,8 +20,8 @@ $layoutTemplate = $styleSwitcher->getLayoutTemplate();
      class="checkout-container am-checkout -<?= /* @noEscape */ $design?> -layout-<?= /* @noEscape */ $layout?>"
      data-amcheckout-js="checkout">
     <div class="checkout-header">
-        <h1 class="title"><?= $block->escapeHtml($onepageDataProvider->getTitle()); ?></h1>
-        <div class="description"><?= /* @noEscape */ $onepageDataProvider->getDescription(); ?></div>
+        <h1 class="title"><?= $block->escapeHtml($helper->getTitle()); ?></h1>
+        <div class="description"><?= /* @noEscape */ $helper->getDescription(); ?></div>
     </div>
 
     <div id="checkout-loader" data-role="checkout-loader" class="loading-mask" data-mage-init='{"checkoutLoader": {}}'>
@@ -52,7 +45,7 @@ $layoutTemplate = $styleSwitcher->getLayoutTemplate();
             config: {
                 mixins: {
                     'Magento_Ui/js/view/messages': {
-                        'Amasty_CheckoutCore/js/view/messages-mixin': true
+                        'Amasty_Checkout/js/view/messages-mixin': true
                     }
                 }
             }
@@ -61,8 +54,8 @@ $layoutTemplate = $styleSwitcher->getLayoutTemplate();
         // Create aliases for customer.js model from customer module
         window.isCustomerLoggedIn = window.checkoutConfig.isCustomerLoggedIn;
         window.customerData = window.checkoutConfig.customerData;
-        window.checkoutDesign = "<?= $styleSwitcher->isModernCheckoutDesign() ? 'modern' : 'classic'?>";
-        window.checkoutLayout = "<?= $block->escapeHtml($styleSwitcher->getLayoutTemplate())?>";
+        window.checkoutDesign = "<?= $helper->isModernCheckoutDesign() ? 'modern' : 'classic'?>";
+        window.checkoutLayout = "<?= $block->escapeHtml($helper->getLayoutTemplate())?>";
     </script>
     <script>
         require([
@@ -79,11 +72,26 @@ $layoutTemplate = $styleSwitcher->getLayoutTemplate();
         require([
             'rjsResolver',
             'underscore',
-            '<?= \Amasty\CheckoutCore\Model\Optimization\BundleService::COLLECT_SCRIPT_PATH ?>',
+            '<?= \Amasty\Checkout\Model\Optimization\BundleService::COLLECT_SCRIPT_PATH ?>',
         ], function(requireResolver, _, createBundle) {
             requireResolver(_.debounce(createBundle, 1000));
         });
     </script>
 <?php endif; ?>
 
+    <?php if ($helper->isAddressSuggestionEnabled() && ($apiKey = $helper->getGoogleMapsKey())): ?>
+    <script>
+        window.amasty_checkout_regions = <?= /* @noEscape */ $helper->getRegionsJson() ?>;
+        function amasty_checkout_gmaps_init() {
+            require(['Amasty_Checkout/js/autocomplete'], function (autocomplete) {
+                autocomplete.isReady(true);
+            });
+        }
+    </script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=<?=
+        /* @noEscape */ $block->stripTags($apiKey);?>&libraries=places&callback=amasty_checkout_gmaps_init"
+        async defer>
+    </script>
+    <?php endif ?>
 </div>

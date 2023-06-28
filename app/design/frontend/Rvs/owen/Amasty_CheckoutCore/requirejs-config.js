@@ -9,9 +9,9 @@ config = {
             'Magento_Checkout/js/model/new-customer-address': {
                 'Amasty_CheckoutCore/js/model/new-customer-address-mixin': amasty_mixin_enabled
             },
-            // 'Magento_Checkout/js/action/get-payment-information': {
-            //     'Amasty_CheckoutCore/js/action/get-payment-information-mixin': amasty_mixin_enabled
-            // },
+            'Magento_Checkout/js/action/get-payment-information': {
+                'Amasty_CheckoutCore/js/action/get-payment-information-mixin': amasty_mixin_enabled
+            },
             'Magento_Checkout/js/view/payment/list': {
                 'Amasty_CheckoutCore/js/view/payment/list': amasty_mixin_enabled
             },

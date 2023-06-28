@@ -5,7 +5,7 @@
         <sequence>
             <module name="Magento_Customer"/>
             <module name="Magento_Checkout"/>
-            <module name="Amasty_CheckoutCore"/>
+            <module name="Amasty_Checkout"/>
         </sequence>
     </module>
 </config>

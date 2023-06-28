@@ -1,4 +1,4 @@
 <?php $_product = $block->getProduct(); ?>
-<?php if(trim($_product->getAllergens() ?? '') != ''): ?>
+<?php if(trim($_product->getAllergens()) != ''): ?>
 	<?= $_product->getAllergens(); ?>		
 <?php endif; ?>
